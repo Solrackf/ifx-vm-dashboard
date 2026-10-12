@@ -39,6 +39,7 @@ En desarrollo, Vite publica el frontend en `localhost:5173` y redirige `/api` y 
 4. `requireAuth` protege los endpoints de VM; `requireAdmin` limita escritura y borrado a Administrador.
 5. El middleware de Socket.IO verifica la cookie y el JWT antes de aceptar una conexión.
 6. Cerrar sesión invalida la cookie del navegador. El JWT deja de ser utilizable al expirar.
+7. `POST /api/login` limita intentos a 10 por ventana de 15 minutos por IP. Las escrituras con un encabezado `Origin` ajeno al `WEB_ORIGIN` configurado se rechazan en la API.
 
 En frontend, `/login` es pública; `/dashboard` y `/vms` requieren sesión. `/vms/new` y `/vms/:id/edit` requieren rol Administrador. Las rutas de administración redirigen a Cliente al inventario de solo lectura. La autorización real siempre se vuelve a aplicar en el servidor.
 
@@ -46,7 +47,7 @@ En desarrollo se usa `COOKIE_SECURE=false` porque el origen local es HTTP. En pr
 
 ## Endpoints
 
-Todos los endpoints, salvo login y health, requieren la cookie de sesión.
+Todos los endpoints, salvo health, login y logout, requieren la cookie de sesión.
 
 | Método   | Ruta           | Acceso          | Descripción                                            |
 | -------- | -------------- | --------------- | ------------------------------------------------------ |
@@ -98,6 +99,7 @@ vm-dashboard/
 │       ├── App.tsx        # rutas y composición del dashboard
 │       └── api.ts         # cliente HTTP tipado
 ├── docs/               # manual y arquitectura
+├── tests/e2e/          # recorridos de navegador y accesibilidad
 ├── .env.example
 └── README.md
 ```
@@ -111,5 +113,10 @@ Al iniciar, `apps/api/src/db.ts` crea las tablas `users` y `vms` si no existen. 
 - Reemplazar las credenciales de demostración y el secreto JWT.
 - Habilitar `COOKIE_SECURE=true` exclusivamente detrás de HTTPS.
 - Configurar `WEB_ORIGIN` al origen exacto de producción y revisar los dominios de cookie.
-- Añadir rate limiting al login, auditoría de operaciones y gestión de sesiones/revocación según el entorno.
+- Revisar el límite de login y el almacenamiento del rate limiter para múltiples instancias; el límite actual usa memoria local.
+- Añadir auditoría de operaciones y gestión de sesiones/revocación según el entorno.
 - Definir backups, estrategia de migraciones y almacenamiento persistente para SQLite o migrar a un servicio de base de datos si la carga crece.
+
+## Calidad y pruebas
+
+El repositorio incluye pruebas unitarias, de componentes, integración HTTP/Socket.IO, recorridos Playwright, comprobaciones de seguridad local y accesibilidad automatizada. La estrategia, comandos y limitaciones están en [Plan de pruebas QA y seguridad](PLAN_PRUEBAS_QA_Y_SEGURIDAD.md).

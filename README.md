@@ -56,9 +56,15 @@ npm run dev       # API + frontend
 npm run dev:api   # solo API
 npm run dev:web   # solo frontend
 npm run build    # compilación de producción de API y frontend
+npm test         # pruebas de integración de API y pruebas frontend
+npm run test:e2e # recorridos de navegador, permisos, rollback y accesibilidad
+npm run test:all # suite completa, incluyendo Playwright
+npx playwright install chromium # solo si el equipo no tiene Edge/Chromium instalado
 npm run format   # aplica el formato estándar al código y la documentación
 npm run format:check # comprueba que el formato esté aplicado
 ```
+
+La suite E2E inicia una API y un frontend aislados y usa una base SQLite temporal fuera del repositorio. Consulta [Plan de pruebas QA y seguridad](docs/PLAN_PRUEBAS_QA_Y_SEGURIDAD.md) para la cobertura, el alcance de seguridad y las limitaciones conocidas.
 
 ## Documentación
 

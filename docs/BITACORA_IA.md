@@ -148,6 +148,26 @@ Corrige el error reproducible del build de la API: falta la declaración de tipo
 
 **Resultado y verificación:** se añadió `@types/cookie-parser` a `apps/api/package.json` y al `package-lock.json`. `npm run build` completó correctamente la compilación TypeScript de la API, la compilación TypeScript del frontend y el bundle de Vite. La corrección quedó en el commit `a354a00` (`fix(api): declare cookie-parser type definitions`) y se publicó en `main`. No se ejecutó una instalación limpia durante esta reparación; el paquete sí quedó declarado para que npm pueda resolverlo en otros entornos.
 
+## Prompt 8 — Fase final de QA, testing y seguridad · reconstruido
+
+> **Fidelidad:** prompt consolidado a partir de la instrucción de cerrar el proyecto con una suite profesional de QA. No es una transcripción literal de un mensaje histórico.
+
+```text
+Actúa como QA Lead, ingeniero de pruebas y pentester autorizado para esta aplicación local. El producto y sus contratos funcionales ya están implementados; esta es la fase final de aseguramiento antes de la entrega. Diseña e implementa una suite mantenible que permita comprobar los flujos solicitados y detectar regresiones, con pruebas unitarias, de componentes, integración, extremo a extremo, seguridad de aplicación, accesibilidad y una comprobación de concurrencia proporcionada al entorno.
+
+Usa las herramientas adecuadas al stack existente: Vitest y Testing Library para lógica y componentes React; Node Test Runner para contratos HTTP y Socket.IO de la API; Playwright para recorridos reales del navegador; axe-core para reglas WCAG automatizables. No cambies el stack de producción solo para facilitar las pruebas.
+
+Incluye cobertura para autenticación y sesión en cookie, roles y rutas privadas, validación, CRUD de máquinas, búsqueda y filtros, comportamiento optimista con reversión, deduplicación entre HTTP y Socket.IO, eventos en tiempo real, manejo de errores, límites de entrada y protección del login. Añade pruebas negativas para sesiones inválidas, mutaciones del rol Cliente, payloads inválidos, solicitudes excesivas, orígenes externos y conexiones Socket.IO anónimas. Comprueba el modo claro y oscuro con axe y verifica las rutas críticas de Administrador y Cliente en el navegador.
+
+Mantén los datos, puertos y secretos aislados de desarrollo y producción. Ejecuta la evaluación de seguridad únicamente contra la aplicación de prueba levantada en localhost; no envíes tráfico a GitHub ni a otros destinos externos. No llames pentest exhaustivo a una suite local. Documenta cómo ejecutar cada capa, qué cubre, qué no puede demostrar y qué requiere inspección manual. Repara los defectos que encuentres, vuelve a ejecutar la suite afectada y reporta resultados reales; no marques como aprobado un caso que no se ejecutó.
+```
+
+**Intervención y razón:** el testing se incorporó en la fase final porque primero estabilicé los flujos, las rutas, el store y los contratos HTTP/Socket.IO; así las pruebas pueden fijar el comportamiento esperado y detectar regresiones sobre una implementación concreta. La evaluación previa calificó el testing como la brecha de mayor impacto (2/10), por lo que dirigí esta fase a evidencia repetible sobre cada recorrido y los controles de seguridad, en vez de añadir casos aislados sin una estrategia.
+
+**Resultado de la intervención:** se añadieron pruebas unitarias y de componentes para validación, store y permisos; pruebas de integración para sesión, autorización, CRUD, Socket.IO, rate limiting, tamaño de entrada, origen y concurrencia local; y recorridos Playwright para creación, búsqueda, edición, eliminación, reversión optimista y acceso Cliente. La verificación WCAG encontró problemas reales de contraste en el login y las paletas del dashboard; ajusté esos colores y mantuve axe como control de regresión. También corregí el montaje de rutas protegidas para que el dashboard conserve el estado al abrir y cerrar el drawer.
+
+**Verificación:** `npm run test:all` pasó: API 10/10 (incluye la suite contenedora), frontend 24/24 en cuatro archivos y Playwright 4/4 en Edge local. axe no reportó violaciones WCAG 2.1 A/AA en login ni en dashboard con temas claro y oscuro. `npm run build` y `npm run format:check` también pasaron. La primera ejecución del build dentro del aislamiento de Windows se detuvo con `EPERM` al resolver `main.tsx`; repetí la compilación con permisos ampliados y terminó correctamente, sin modificar archivos para eludir la revisión. El alcance es local; no equivale a una prueba de penetración externa, una prueba de carga de producción o una revisión manual completa de accesibilidad. El detalle de los comandos y límites está en `docs/PLAN_PRUEBAS_QA_Y_SEGURIDAD.md`.
+
 ## Git y estado de publicación
 
 Al revisar el avance noté que no había commits y pedí un nivel profesional de trazabilidad. Se inicializó el repositorio, se incorporaron `.editorconfig`, `.gitattributes`, `.gitignore` y `CONTRIBUTING.md`, y el proyecto se publicó en GitHub. La rama `main` incluye el commit `134d525` (`feat: add VM management dashboard with realtime API`). El remoto `origin` apunta a [github.com/Solrackf/ifx-vm-dashboard](https://github.com/Solrackf/ifx-vm-dashboard).
