@@ -1,194 +1,159 @@
 # Bitácora de uso de inteligencia artificial
 
-## Flujo de trabajo multi-agente
+## Propósito y criterio de fidelidad
 
-El proyecto se desarrolló orquestando **dos agentes de IA con roles distintos y herramientas diferentes**:
+Esta bitácora explica cómo se utilizó la IA como herramienta de ejecución dentro de una solución planeada por el candidato. El candidato definió el alcance a partir del enunciado, eligió las tecnologías, fijó la dirección visual, decidió incluir tiempo real desde el inicio y revisó el resultado para orientar las iteraciones. La IA apoyó la implementación, la documentación y la incorporación de correcciones concretas.
 
-| Rol | Herramienta | Modelo | Responsabilidad |
-| --- | --- | --- | --- |
-| Desarrollo | ChatGPT con Codex | GPT-6 Luna — esfuerzo de razonamiento `high` | Implementación del frontend, la API REST, la sincronización en tiempo real y la documentación base |
-| Auditoría | Devin (Devin Desktop / Windsurf) | SWE-2 High | Auditoría del código, evaluación requisito por requisito contra el enunciado y feedback para iterar |
+Los prompts que aparecen como **reconstruidos** o **consolidados** describen fielmente las instrucciones, decisiones y criterios que guiaron el trabajo, pero no son transcripciones literales de un único mensaje. Se identifican así para que el evaluador pueda distinguir una reconstrucción editorial del historial textual exacto. Las evaluaciones citadas como insumo reflejan el reporte que el candidato compartió durante la revisión.
+
+## Herramientas y modelos
+
+| Participación | Herramienta / modelo | Uso |
+| --- | --- | --- |
+| Desarrollo | ChatGPT con Codex — GPT-6 Luna, razonamiento `high` | Implementar frontend, API, persistencia, autenticación, tiempo real y documentación siguiendo las decisiones del candidato. |
+| Revisión independiente | Devin Desktop / Windsurf — SWE-2 High | Contrastar el entregable con el enunciado, reportar brechas y entregar feedback para dirigir correcciones. |
 
 La documentación oficial de OpenAI enumera `high` entre los niveles de razonamiento compatibles con GPT-6 Luna: [GPT-6 Luna — OpenAI API](https://developers.openai.com/api/docs/models/gpt-6-luna).
 
-```mermaid
-flowchart LR
-  C[Candidato] -->|Requisitos + dirección de producto| D["ChatGPT / Codex · GPT-6 Luna<br/>(agente de desarrollo)"]
-  D -->|Código + documentación| C
-  C -->|Encargo de auditoría| A["Devin · SWE-2 High<br/>(agente auditor)"]
-  A -->|Evaluación por requisito + brechas priorizadas| C
-  C -->|Feedback dirigido a la siguiente iteración| D
-```
+## Secuencia de trabajo e intervención humana
 
-Este esquema reproduce un patrón de trabajo agéntico deliberado: un agente construye y otro —con contexto y herramientas independientes— verifica. Separar los roles evita que el mismo agente "califique su propia tarea" y le da al candidato una segunda lectura objetiva del entregable antes de cada iteración.
-
-## Índice de prompts
-
-| # | Herramienta | Fidelidad | Propósito |
+| Etapa | Instrucción / intervención | Por qué se hizo | Solución ejecutada |
 | --- | --- | --- | --- |
-| 1 | ChatGPT / Codex | Reconstruido | Generar la base completa: SPA, API, tiempo real y documentación |
-| 2 | ChatGPT / Codex | Consolidado | Refinamiento de la dirección visual |
-| 3 | ChatGPT / Codex | Consolidado | Incluir sincronización en tiempo real con Socket.IO |
-| 4 | Devin / SWE-2 High | Reconstruido | Auditoría independiente del entregable y evaluación del nivel |
+| 1. Delimitación | El candidato compartió la prueba, pidió convertirla a Markdown y decidió iniciar el desarrollo a partir de sus requisitos. | Tener una fuente legible para planear y verificar el alcance antes de programar. | Enunciado transcrito a Markdown y criterios funcionales y de entrega identificados. |
+| 2. Decisiones base | El candidato confirmó React, TypeScript y Vite; Express y TypeScript; SQLite; WebSockets desde el inicio; experiencia local primero; manual, documentación técnica y cuentas de prueba. | Fijar el stack, el modo de operación y los entregables antes de ejecutar el desarrollo. | Monorepo npm con aplicaciones web y API, persistencia SQLite, Socket.IO y datos seed de demostración. |
+| 3. Dirección visual | El candidato especificó minimalismo, elegancia sobria, ausencia de glassmorphism, drawers, jerarquía clara y transiciones profesionales. | Evitar una interfaz genérica y mantener una dirección consistente con el producto esperado. | Consola responsive con paleta sobria, tema claro/oscuro, formularios laterales y microtransiciones. |
+| 4. Entregables | El candidato pidió documentación de uso y técnica, credenciales de prueba y una bitácora que identificara herramienta, modelo y prompts. | Permitir instalar, recorrer y evaluar la aplicación, y declarar el uso de IA con transparencia. | README, manual, documentación técnica y esta bitácora. |
+| 5. Control de calidad | El candidato compartió una evaluación externa que señaló brechas concretas de rutas, estado global, validación en tiempo real, feedback visual de Socket.IO y Git. | Corregir aspectos observables contra el enunciado y elevar la organización del frontend. | React Router, Zustand, separación de componentes, validación al salir y corregir campos, resaltado de cambios y convenciones Git. |
 
-**Convención de fidelidad:**
+La IA no definió por sí sola el objetivo del sistema ni sustituyó la revisión del candidato. Su función fue materializar instrucciones y corregir el código según criterios indicados y revisados por el candidato.
 
-- **Literal:** copia exacta del mensaje enviado al agente.
-- **Reconstruido:** redacción editorial posterior que reúne los requisitos y decisiones reales de la colaboración para hacer el proceso reproducible; no es una transcripción de un único mensaje histórico.
-- **Consolidado:** formaliza feedback dado de forma iterativa a lo largo de varios mensajes.
+## Prompt 1 — Ejecución de la solución planeada · reconstruido
 
-## Alcance del apoyo por herramienta
-
-### ChatGPT / Codex — desarrollo
-
-La IA convirtió los requisitos de la prueba en una primera versión funcional y documentada. Las tareas asistidas incluyeron:
-
-- proponer y preparar la estructura del monorepo para frontend y backend;
-- elaborar el dashboard, el formulario lateral de VM, los estados de carga y las notificaciones;
-- implementar el login con cookie HttpOnly, autorización por rol, endpoints CRUD y persistencia SQLite;
-- conectar eventos Socket.IO para sincronizar cambios entre sesiones;
-- preparar cuentas de demostración, el README, la guía técnica y el manual de uso.
-
-### Devin / SWE-2 High — auditoría
-
-El segundo agente recibió el enunciado y el código ya implementado, con la consigna de auditar sin modificar. Su trabajo incluyó:
-
-- leer el enunciado completo y derivar la lista exhaustiva de requisitos evaluables;
-- auditar frontend y backend requisito por requisito, clasificando cada uno como cumplido, parcial o ausente;
-- verificar la compilación real de ambas aplicaciones (`tsc` de la API y `tsc` + `vite build` del frontend, ambos exitosos);
-- contrastar lo que la documentación declara contra lo que el código efectivamente hace;
-- devolver una evaluación con brechas priorizadas y un veredicto sobre el nivel del entregable.
-
-Hallazgos reportados por la auditoría, aceptados como trabajo pendiente de iteración:
-
-- el enunciado pide rutas públicas y privadas y la implementación usa render condicional sin router;
-- el frontend concentra todo el estado y los componentes en un único `App.tsx`, sin una solución dedicada de estado global;
-- los cambios recibidos por Socket.IO actualizan el estado, pero sin la animación de resaltado que pide el enunciado;
-- la validación del formulario ocurre al enviar, no en tiempo real;
-- el repositorio git fue inicializado pero aún sin commits ni publicación.
-
-## Decisiones e intervención del candidato
-
-La IA propuso y redactó una base inicial; las decisiones de producto y los criterios de aceptación se definieron durante la colaboración. El candidato especificó y ajustó:
-
-- React, TypeScript y Vite para el frontend; Node.js, Express y TypeScript para la API; SQLite para persistencia.
-- La inclusión de WebSockets desde el inicio.
-- Una estética minimalista, elegante y sobria, con transiciones cuidadas, drawers y sin glassmorphism.
-- La necesidad de documentar las cuentas de prueba en un manual funcional y en documentación técnica.
-- La corrección de omisiones detectadas durante la revisión, incluida la preparación de Git y de convenciones del repositorio.
-- La orquestación de un segundo agente independiente como auditor, con instrucciones explícitas de verificación objetiva, y el uso de su reporte como insumo para dirigir la siguiente iteración del agente de desarrollo.
-
-La compilación de frontend y backend se ejecutó como verificación técnica. Antes de publicar, el candidato debe revisar el código, recorrer los flujos principales y confirmar que las decisiones implementadas corresponden a los requisitos de la prueba.
-
-## Prompt 1 — Desarrollo inicial · ChatGPT/Codex · reconstruido
-
-> **Nota de fidelidad:** este prompt es una reconstrucción editorial que reúne los requisitos de la prueba y las decisiones definidas durante la colaboración. Está redactado para que el proceso sea reproducible; no es una transcripción literal de un único mensaje histórico.
+> **Fidelidad:** reconstrucción editorial del encargo de implementación. Consolida la prueba técnica y las decisiones del candidato recogidas durante la colaboración; no se presenta como mensaje literal. Su propósito es mostrar de forma reproducible qué debía construir la IA y bajo qué reglas.
 
 ```text
-Actúa como arquitecto de software y desarrollador full stack senior. Ayúdame a diseñar e implementar una SPA profesional para administrar máquinas virtuales, tomando como base los requisitos de una prueba técnica Full Stack con énfasis en frontend. El resultado debe ser claro, mantenible, responsivo y fácil de ejecutar localmente.
+Actúa como agente de implementación full stack. El alcance, las prioridades y las decisiones de producto de esta solución ya fueron planeados por mí. Tu responsabilidad es ejecutar el desarrollo con criterio técnico, respetando esta especificación. No reemplaces las decisiones del candidato por preferencias propias ni declares cumplido algo que no esté implementado.
 
-CONTEXTO Y STACK
-- Usa React, TypeScript y Vite para el frontend.
-- Usa Node.js, Express y TypeScript para la API REST.
-- Usa SQLite para persistencia local y Socket.IO para la sincronización en tiempo real.
-- Mantén frontend y backend separados por aplicación dentro de un monorepo npm.
-- Separa componentes, acceso a datos y responsabilidades de API con una estructura legible; evita tanto los archivos monolíticos como la abstracción innecesaria.
+OBJETIVO
+Construye una consola web para administrar máquinas virtuales, de acuerdo con la prueba técnica compartida. Debe incluir una SPA para los roles Administrador y Cliente, una API REST, persistencia local, autorización por rol, sincronización entre sesiones y documentación de entrega. Antes de cambiar el alcance, contrasta cada tarea con el enunciado y conserva las decisiones siguientes.
+
+DECISIONES TÉCNICAS YA TOMADAS
+- Frontend: React, TypeScript y Vite.
+- Backend: Node.js, Express y TypeScript.
+- Persistencia: SQLite, adecuada para ejecutar y revisar el proyecto localmente.
+- Tiempo real: Socket.IO desde el inicio, no como mejora posterior.
+- Organización: monorepo npm con frontend y API separados. Divide el código por responsabilidades y funcionalidades; evita concentrar la aplicación en un único componente.
+- Estado frontend: distingue el estado de sesión, los datos compartidos del servidor y el estado efímero de interfaz. Mantén el inventario sincronizado entre solicitudes HTTP y eventos Socket.IO.
+
+REQUISITOS FUNCIONALES DEL FRONTEND
+- Crea una ruta pública de inicio de sesión y rutas privadas para el dashboard y el inventario. La creación y edición deben poder abrirse mediante rutas privadas identificables, aunque la interfaz de edición se presente en un drawer.
+- Implementa dos roles: Administrador y Cliente. El Administrador puede consultar, crear, editar y eliminar máquinas. El Cliente puede consultar, pero no debe ver acciones de administración. La seguridad debe aplicarse también en el servidor.
+- Cada VM debe manejar nombre, cantidad de cores, RAM, almacenamiento, sistema operativo y estado.
+- Valida los campos mientras el usuario completa el formulario y vuelve a validar las entradas en la API.
+- En altas, ediciones y eliminaciones, presenta el cambio de inmediato con actualización optimista. Si la petición falla, revierte el cambio y comunica el error.
+- Muestra inventario, búsqueda y filtro por estado, junto con el total de VMs y la suma de cores, RAM y disco de las máquinas activas.
+- Incluye visualizaciones claras de capacidad y disponibilidad. Calcula sus indicadores a partir de los datos disponibles; no muestres cifras ficticias de monitoreo como si fueran reales.
+- Diseña estados de carga, skeletons, errores, estados vacíos y notificaciones toast.
+- Cuando un cambio remoto llegue por Socket.IO, actualiza el inventario y resalta brevemente la fila afectada para que el usuario perciba qué cambió.
+
+CONTRATO DE TIEMPO REAL
+- Autentica la conexión de Socket.IO con la misma sesión de cookie que protege la API.
+- Propaga creación, actualización y eliminación mediante eventos identificables (`vm:created`, `vm:updated` y `vm:deleted`).
+- Evita duplicar un mismo cambio cuando coinciden la respuesta HTTP y el evento emitido por el servidor.
+- Conserva la reversión optimista si la operación HTTP falla.
+
+SEGURIDAD Y VALIDACIÓN
+- Mantén el JWT en cookie HttpOnly; nunca lo devuelvas en el body ni lo guardes en localStorage o sessionStorage.
+- Usa SameSite apropiado y Secure en producción. Permite Secure desactivado solo para desarrollo local sobre HTTP.
+- Protege endpoints de lectura con autenticación y limita las mutaciones a Administrador en el servidor. Ocultar un botón en React no sustituye autorización.
+- Almacena contraseñas con hash, valida payloads en el backend y no filtres secretos en errores.
+- No incluyas secretos, bases de datos locales ni archivos de build en Git.
 
 DIRECCIÓN VISUAL
-- Diseña una consola minimalista, elegante y profesional, con una percepción sobria y de alta calidad.
-- Prioriza jerarquía tipográfica, espaciado, alineación, contraste y lectura rápida de datos.
-- Usa colores discretos y un acento refinado. Incluye tema oscuro y claro.
-- Emplea drawers para crear y editar VMs, y transiciones breves y elegantes que expliquen los cambios de estado.
-- Haz que la interfaz sea intuitiva, adaptable a móvil y accesible mediante teclado.
+- El resultado debe ser minimalista, profesional, intuitivo y transmitir elegancia sobria y calidad alta.
+- Usa color, contraste, tipografía y espaciado para jerarquizar la información. Incluye tema oscuro y claro y diseño adaptable a móvil.
+- Usa drawers para crear y editar. Añade transiciones breves, elegantes y funcionales que comuniquen acciones o cambios de estado.
+- No uses glassmorphism. Evita efectos decorativos, brillos, animaciones excesivas y gradientes intensos. La legibilidad y la consistencia tienen prioridad.
 
-REGLAS VISUALES QUE NO SE DEBEN ROMPER
-- No uses glassmorphism.
-- No recargues la interfaz con efectos, gradientes intensos, brillos, sombras decorativas o animaciones innecesarias.
-- No sacrifiques legibilidad ni consistencia por adornos.
-- No presentes métricas de monitoreo ficticias como si fueran datos reales; calcula los indicadores a partir de las VMs disponibles o identifícalos claramente como demostración.
-
-FUNCIONALIDAD DEL FRONTEND
-- Implementa una ruta pública de login y vistas privadas para dashboard e inventario.
-- Diferencia los roles Administrador y Cliente. El Cliente debe tener una vista de solo lectura: oculta por completo las acciones de crear, editar y eliminar.
-- El Administrador puede crear, consultar, editar y eliminar VMs con nombre, cores, RAM, disco, sistema operativo y estado.
-- Valida los campos en tiempo real y vuelve a validarlos en el servidor.
-- Implementa actualización optimista en altas, cambios y eliminaciones; si la API falla, revierte el estado y comunica el error.
-- Muestra sumas de cores, RAM y disco de las VMs activas mediante visualizaciones claras.
-- Incluye skeletons, estados vacíos, errores visibles y notificaciones toast.
-- Incluye desde el inicio Socket.IO autenticado: propaga la creación, actualización y eliminación de VMs a las demás sesiones y resalta los cambios con discreción.
-
-REGLAS DE SEGURIDAD QUE NO SE DEBEN ROMPER
-- No devuelvas el JWT en el body ni lo guardes en localStorage o sessionStorage.
-- Mantén el JWT en una cookie HttpOnly, SameSite y Secure en producción; permite la cookie no Secure únicamente en desarrollo local HTTP.
-- Envía credenciales de cookie con las peticiones y autentica también la conexión de Socket.IO.
-- Protege cada ruta en el backend. No confíes solo en ocultar controles en el frontend: únicamente el Administrador puede crear, editar o borrar.
-- Almacena contraseñas con hash. No subas secretos, credenciales reales, bases de datos locales ni archivos generados al repositorio.
-- Valida entradas y devuelve errores comprensibles sin filtrar información sensible.
-
-ENTREGABLES Y FORMA DE TRABAJO
-- Prepara un README con pasos para instalar y ejecutar localmente, variables de entorno y cuentas de prueba.
-- Documenta arquitectura, decisiones técnicas y eventos de tiempo real.
-- Prepara un manual de uso que explique los flujos para Administrador y Cliente.
-- Incluye una Bitácora de IA transparente, que diferencie los prompts literales de los reconstruidos y describa las decisiones humanas.
-- Trabaja por etapas: explica brevemente la arquitectura, implementa la funcionalidad, compila el proyecto y comunica qué quedó hecho, qué verificaste y qué limitaciones permanecen.
-- No declares terminado un requisito que no esté implementado y verificado.
+ENTREGABLES Y CRITERIOS DE ACEPTACIÓN
+- Deja un README con instalación, ejecución, variables de entorno y cuentas de prueba.
+- Deja documentación técnica con arquitectura, decisiones y eventos Socket.IO, y un manual de uso por rol.
+- Documenta herramienta, modelo y prompts de IA; distingue mensajes literales de reconstrucciones editoriales y describe las decisiones e intervenciones del candidato.
+- Implementa en etapas pequeñas y explica qué requisito cubre cada etapa. Compila frontend y backend al terminar los cambios de código.
+- Al informar el resultado, enumera lo implementado, cómo se verificó y qué sigue pendiente. No marques como completo un requisito parcial ni inventes una publicación de GitHub.
 ```
 
-## Prompt 2 — Refinamiento visual · ChatGPT/Codex · consolidado
+### Por qué este prompt establece el alcance
 
-> Toma como dirección una interfaz minimalista y de alto nivel: sobria, elegante, profesional e intuitiva. Evita glassmorphism. Usa transiciones elegantes, drawers para la creación y edición, colores discretos y una jerarquía visual clara. Cada elemento destacado debe ayudar a entender una acción, un estado o una métrica; evita adornos sin función.
+El prompt reúne los requisitos del producto y las decisiones técnicas para que la implementación sea evaluable, no solo visual. Precisa quién usa el sistema, qué operaciones corresponden a cada rol, qué datos tiene una VM, cómo se comportan las rutas y el estado, qué debe ocurrir ante fallos y cómo se autentica el tiempo real. También convierte preferencias de diseño y reglas de seguridad en criterios verificables.
 
-Este texto consolida el feedback de diseño dado durante la colaboración.
+## Prompt 2 — Dirección visual · consolidado
 
-## Prompt 3 — Tiempo real con Socket.IO · ChatGPT/Codex · consolidado
-
-> Implementa la sincronización en tiempo real desde el inicio con Socket.IO. Autentica la conexión con la sesión del usuario y emite eventos de creación, actualización y eliminación de VMs para que las sesiones conectadas mantengan el inventario actualizado. Conserva los permisos por rol en la API y acompaña el cambio remoto con una animación breve y discreta.
-
-Este texto formaliza la decisión de incluir WebSockets desde el inicio y la integra con los requisitos de seguridad de la prueba.
-
-## Prompt 4 — Auditoría independiente · Devin/SWE-2 High · reconstruido
-
-> **Nota de fidelidad:** reconstrucción editorial del encargo de auditoría realizado sobre el entregable. El agente auditor trabajó en una sesión separada, con herramientas propias de lectura, búsqueda y ejecución, y sin modificar el código.
+> **Fidelidad:** consolida las preferencias de diseño indicadas directamente por el candidato durante la conversación.
 
 ```text
-Actúa como auditor técnico independiente dentro de un flujo de trabajo multi-agente.
-
-CONTEXTO
-- Otro agente (ChatGPT/Codex, GPT-6 Luna) implementó una prueba técnica Full Stack con énfasis en frontend: una SPA de gestión de máquinas virtuales con API REST, autenticación por cookie HttpOnly, control por roles y sincronización en tiempo real.
-- El enunciado de la prueba está en el workspace, junto con el código del monorepo.
-- Tu rol no es implementar ni corregir: es auditar, evaluar y devolver feedback accionable que yo usaré para dirigir la siguiente iteración del agente de desarrollo. No compartes contexto con el agente constructor; esa independencia es intencional.
-
-TU MISIÓN
-1. Lee el enunciado completo y extrae la lista exhaustiva de requisitos: funcionales, de seguridad, de UX y de entregables/documentación.
-2. Audita el código de ambas aplicaciones contra cada requisito. Clasifica cada uno como cumplido, parcial o ausente, citando el archivo correspondiente.
-3. Verifica, no asumas: si un requisito parece cumplido, confírmalo en el código antes de marcarlo. Ejecuta la compilación del frontend y del backend como evidencia.
-4. Contrasta la documentación con el comportamiento real: señala cualquier afirmación del README o de la documentación técnica que el código no respalde.
-5. Evalúa la calidad arquitectónica: separación de componentes, manejo de estado global, modelo de rutas, seguridad real del backend y resiliencia del flujo de datos.
-6. Devuélveme tres artefactos:
-   a) una evaluación requisito por requisito;
-   b) una lista de brechas priorizada por impacto en la rúbrica de evaluación;
-   c) tu veredicto honesto sobre si el nivel del entregable corresponde a un perfil senior, con los argumentos que lo sostienen.
-
-REGLAS
-- Solo lee, busca y ejecuta verificaciones; no edites el código auditado.
-- Sé objetivo aunque el hallazgo sea incómodo: un defecto encontrado ahora vale más que una aprobación optimista.
-- Distingue siempre entre "implementado y verificado", "implementado a medias" y "no implementado"; no mezcles categorías.
-- Termina indicándome exactamente qué debe cambiar antes de la entrega final.
+Intervén en la presentación del dashboard para alinearla con esta dirección visual: minimalista, profesional, intuitiva, sobria y elegante, con sensación de producto de alta calidad. No uses glassmorphism. Usa colores discretos, jerarquía clara y drawers para crear y editar. Aplica transiciones profesionales, breves y elegantes a los cambios que deban llamar la atención. Cada elemento destacado debe ayudar a leer información o entender una acción; evita adornos sin función.
 ```
 
-## Resultado y revisión
+**Intervención y razón:** el candidato precisó una dirección visual concreta para evitar que la IA resolviera el dashboard con un estilo genérico o cargado. La solución debía expresar lujo sobrio sin sacrificar claridad, y usar transiciones y drawers como parte del flujo, no como decoración.
 
-La colaboración produjo una base local del dashboard, API, seed de demostración y documentación. El build de producción de TypeScript/Vite para frontend y backend terminó correctamente, verificado tanto por el agente de desarrollo como por el auditor.
+## Prompt 3 — Stack local y tiempo real desde el inicio · consolidado
 
-La evaluación del candidato confirmó el cumplimiento de los ejes centrales y señaló brechas concretas en rutas, organización del frontend, validación mientras se escribe y feedback visual de Socket.IO. En respuesta se incorporaron React Router con rutas protegidas, Zustand para el estado compartido, componentes separados por funcionalidad, validación al salir y corregir campos, y resaltado temporal de filas modificadas. El build de producción volvió a completarse correctamente después de los cambios.
+> **Fidelidad:** reúne decisiones expresadas por el candidato al responder las preguntas iniciales de planeación.
 
-## Intervenciones concretas durante la revisión
+```text
+Implementa el frontend con React, TypeScript y Vite; la API con Express y TypeScript; persiste los datos en SQLite. Integra Socket.IO desde la primera versión. Autentica API y conexión de tiempo real con la sesión del usuario. Propaga creación, actualización y eliminación de VMs a las demás sesiones, mantén los roles validados en la API y evita duplicar datos al combinar respuesta HTTP y evento Socket.IO. Prepara el sistema para ejecutarse localmente.
+```
 
-La participación humana incluyó decisiones y correcciones de alcance, no solo una revisión general:
+**Intervención y razón:** el candidato eligió explícitamente SQLite y pidió planear WebSockets desde el inicio. Esta instrucción fija decisiones que afectan la arquitectura y evita tratar la sincronización como un añadido posterior.
 
-1. **Selección de tecnologías y experiencia:** el candidato confirmó React y TypeScript, SQLite y la inclusión de WebSockets desde el inicio. Definió el criterio visual minimalista, elegante y sobrio, pidió evitar glassmorphism y priorizó drawers y transiciones cuidadas.
-2. **Trazabilidad del trabajo:** el candidato observó que no había commits visibles y solicitó un flujo Git profesional. Se inicializó el repositorio local en `main` y se añadieron convenciones de archivos y contribución. Para crear commits con autoría correcta falta configurar el correo del candidato; también queda pendiente crear y conectar el remoto de GitHub.
-3. **Revisión crítica del frontend:** el candidato presentó una evaluación que detectó rutas simuladas, estado concentrado en `App.tsx`, validación solo al enviar y ausencia de resaltado al recibir `vm:updated`. A partir de esas observaciones se incorporaron rutas de React Router con guards, Zustand para el estado compartido, componentes separados por funcionalidad, validación al salir y corregir campos, y un resaltado breve de las filas actualizadas por Socket.IO.
-4. **Revisión de entregables:** el candidato pidió una bitácora de IA con un prompt inicial profesional y la identificación del modelo GPT-6 Luna con esfuerzo High. El prompt inicial de este documento se marca como reconstrucción editorial y no como transcripción literal.
+## Prompt 4 — Documentación y cuentas de demostración · consolidado
 
-El repositorio sigue siendo local: la bitácora no afirma que exista una URL de GitHub. La revisión funcional y de seguridad debe continuar antes de publicar; esta bitácora no la sustituye.
+> **Fidelidad:** consolida la petición del candidato de preparar cuentas de prueba documentadas, documentación técnica y manual de uso.
+
+```text
+Prepara los entregables para que otra persona pueda instalar y evaluar el sistema localmente. Documenta los comandos de inicio, configuración y variables de entorno; crea cuentas de demostración con roles distintos y explica cómo probar cada una. Incluye documentación técnica de arquitectura y decisiones, un manual de uso para Administrador y Cliente y una bitácora transparente que identifique la IA utilizada y los prompts, diferenciando textos literales de reconstrucciones.
+```
+
+**Intervención y razón:** el candidato pidió que los entregables acompañaran al código, y que las credenciales de prueba quedaran disponibles y explicadas en la documentación.
+
+## Prompt 5 — Corrección dirigida por evaluación · reconstruido
+
+> **Fidelidad:** reconstrucción del encargo de implementación que siguió a la evaluación compartida por el candidato. El reporte externo identificó problemas concretos y el candidato lo usó para dirigir una iteración.
+
+```text
+Corrige las brechas de frontend reportadas en la evaluación, manteniendo la dirección visual ya definida y sin rehacer las partes que cumplen.
+
+1. Sustituye la navegación condicional por rutas reales: login pública; dashboard e inventario privados; creación y edición con rutas privadas dedicadas. Protege rutas por sesión y por rol, y conserva la autorización del backend.
+2. Saca de App.tsx los componentes y responsabilidades que pertenecen a funcionalidades. Separa autenticación y VM, y utiliza un store global para los datos compartidos de sesión e inventario. Mantén en cada componente solo el estado local que le corresponde.
+3. Cambia la validación del drawer para que los campos se validen al perder foco y se actualicen mientras el usuario corrige el valor. Conserva la validación completa al enviar y la validación autoritativa en el servidor.
+4. Al recibir vm:updated por Socket.IO, actualiza el estado compartido y resalta temporalmente la fila de esa VM con una transición discreta. Respeta prefers-reduced-motion.
+5. Revisa la deduplicación entre eventos y respuestas HTTP para que una operación no duplique una VM. Si la escritura falla, conserva la reversión optimista.
+6. Actualiza README y documentación técnica para que describan las rutas, el store y la estructura realmente implementados. Amplía esta bitácora con esta intervención específica y el resultado; no atribuyas al candidato una transcripción literal inexistente.
+
+Compila API y frontend y reporta las limitaciones que sigan pendientes.
+```
+
+**Intervención y razón:** el candidato compartió una evaluación que marcaba estas brechas como las de mayor impacto en la prueba. En lugar de aceptar una calificación general o rehacer la solución, dirigió una corrección específica hacia las capacidades que el enunciado evaluaba: arquitectura de rutas, organización del estado, validación y señal visual de eventos en tiempo real.
+
+**Resultado de esta intervención:** se añadieron rutas React Router para `/login`, `/dashboard`, `/vms`, `/vms/new` y `/vms/:id/edit`; guards de sesión y rol; Zustand para sesión e inventario; componentes separados para login, filas, drawer y tarjetas; validación al salir y mientras se corrige cada campo; y resaltado temporal de filas actualizadas por Socket.IO. La API conserva la autorización de escritura.
+
+## Prompt 6 — Auditoría independiente · Devin Desktop / Windsurf · SWE-2 High · reconstruido
+
+> **Fidelidad:** reconstrucción del encargo de revisión asociado al reporte de Devin Desktop / Windsurf con SWE-2 High, compartido por el candidato. El agente de auditoría debía evaluar, no implementar.
+
+```text
+Actúa como auditor técnico independiente. Lee el enunciado completo y contrasta cada requisito funcional, de seguridad, UX y documentación con el código del proyecto. No edites los archivos auditados. Clasifica cada punto como cumplido, parcial o ausente y cita la evidencia concreta en el código. Ejecuta el build de frontend y backend y contrasta las afirmaciones de los documentos con el comportamiento real. Prioriza las brechas por impacto en la evaluación y entrega un veredicto honesto sobre la calidad arquitectónica, incluido el nivel de separación de componentes, rutas y estado global. No ocultes hallazgos para favorecer al agente de desarrollo; el candidato usará el informe para decidir y dirigir la siguiente corrección.
+```
+
+**Intervención y razón:** el candidato mantuvo separada la implementación de la evaluación y compartió el reporte para revisar el trabajo con otra perspectiva. La evaluación reportó, entre otros puntos, que faltaban rutas reales, estado global, validación en tiempo real y resaltado al actualizar por Socket.IO. Ese reporte se convirtió en tareas concretas mediante el Prompt 5.
+
+## Git y estado de publicación
+
+El candidato señaló inicialmente que no veía commits y pidió un nivel profesional de trazabilidad. Se inicializó el repositorio, se incorporaron `.editorconfig`, `.gitattributes`, `.gitignore` y `CONTRIBUTING.md`, y el proyecto se publicó en GitHub. La rama `main` incluye el commit `134d525` (`feat: add VM management dashboard with realtime API`). El remoto `origin` apunta a [github.com/Solrackf/ifx-vm-dashboard](https://github.com/Solrackf/ifx-vm-dashboard).
+
+Una versión anterior de esta bitácora quedó desactualizada al afirmar que no existían commits ni remoto. Este registro corrige ese dato y refleja el estado publicado informado por el candidato y la referencia del repositorio configurada localmente.
+
+## Verificación y responsabilidad de revisión
+
+Después de la corrección guiada por la evaluación, `npm run build` completó la compilación de TypeScript de la API y del frontend y el bundle de Vite. Esto verifica la compilación, no reemplaza el recorrido funcional del candidato. Antes de presentar la entrega, el candidato revisará los flujos principales con las cuentas de demostración y confirmará que el comportamiento satisface el enunciado.
