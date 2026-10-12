@@ -1,0 +1,21 @@
+{
+  "name": "vm-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB -c yellow,cyan \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm --workspace @vm-dashboard/api run dev",
+    "dev:web": "npm --workspace @vm-dashboard/web run dev",
+    "build": "npm --workspace @vm-dashboard/api run build && npm --workspace @vm-dashboard/web run build",
+    "start": "npm --workspace @vm-dashboard/api run start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
