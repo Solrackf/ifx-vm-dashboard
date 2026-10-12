@@ -136,6 +136,18 @@ Actúa como auditor técnico independiente. Lee el enunciado completo y contrast
 
 **Intervención y razón:** mantuve separada la implementación de la evaluación y compartí el reporte para revisar el trabajo con otra perspectiva. La auditoría reportó, entre otros puntos, que faltaban rutas reales, estado global, validación en tiempo real y resaltado al actualizar por Socket.IO. Ese reporte se convirtió en tareas concretas mediante el Prompt 5.
 
+## Prompt 7 — Declaración de tipos faltantes y recuperación del build · reconstruido
+
+> **Fidelidad:** reconstrucción de la instrucción basada en la re-evaluación compartida por el candidato. El diagnóstico reportó que TypeScript no encontraba declaraciones para `cookie-parser` después de una actualización de dependencias.
+
+```text
+Corrige el error reproducible del build de la API: falta la declaración de tipos para `cookie-parser`. Declara `@types/cookie-parser` como dependencia de desarrollo del workspace de la API y actualiza el lockfile. No dependas de paquetes que existan solo en node_modules. Ejecuta el build completo de API y frontend; informa si pasó y registra el arreglo en un commit independiente.
+```
+
+**Intervención y razón:** la re-evaluación encontró que una dependencia residual permitía compilar en el entorno previo, pero no estaba declarada para instalaciones reproducibles. Compartí el error concreto y su causa probable para que la corrección cubriera el manifiesto y el lockfile, no solo el entorno local.
+
+**Resultado y verificación:** se añadió `@types/cookie-parser` a `apps/api/package.json` y al `package-lock.json`. `npm run build` completó correctamente la compilación TypeScript de la API, la compilación TypeScript del frontend y el bundle de Vite. La corrección quedó en el commit `a354a00` (`fix(api): declare cookie-parser type definitions`) y se publicó en `main`. No se ejecutó una instalación limpia durante esta reparación; el paquete sí quedó declarado para que npm pueda resolverlo en otros entornos.
+
 ## Git y estado de publicación
 
 Al revisar el avance noté que no había commits y pedí un nivel profesional de trazabilidad. Se inicializó el repositorio, se incorporaron `.editorconfig`, `.gitattributes`, `.gitignore` y `CONTRIBUTING.md`, y el proyecto se publicó en GitHub. La rama `main` incluye el commit `134d525` (`feat: add VM management dashboard with realtime API`). El remoto `origin` apunta a [github.com/Solrackf/ifx-vm-dashboard](https://github.com/Solrackf/ifx-vm-dashboard).
