@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { rateLimit } from 'express-rate-limit';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Server as SocketServer } from 'socket.io';
@@ -41,6 +42,15 @@ const io = new SocketServer(server, {
 app.use(cors({ origin: webOrigin, credentials: true }));
 app.use(express.json({ limit: '32kb' }));
 app.use(cookieParser());
+
+app.use('/api', (req, res, next) => {
+  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
+  const origin = req.get('origin');
+  if (origin && origin !== webOrigin) {
+    return res.status(403).json({ message: 'Origen no autorizado.' });
+  }
+  next();
+});
 
 const userPublic = (row: { id: string; name: string; email: string; role: Role }): AuthUser => ({
   id: row.id,
@@ -78,6 +88,13 @@ function requireAdmin(req: AuthedRequest, res: Response, next: NextFunction) {
 }
 
 const loginSchema = z.object({ email: z.email(), password: z.string().min(1) });
+const loginRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Demasiados intentos de acceso. Intenta de nuevo más tarde.' },
+});
 const vmSchema = z.object({
   name: z
     .string()
@@ -97,7 +114,7 @@ const vmSchema = z.object({
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', loginRateLimit, (req, res) => {
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success)
     return res.status(400).json({ message: 'Revisa el correo y la contraseña.' });
@@ -218,8 +235,20 @@ io.use((socket, next) => {
 });
 
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
-  res.status(500).json({ message: 'Ocurrió un error inesperado.' });
+  const requestError = err as { status?: number; type?: string };
+  const status =
+    requestError.status && requestError.status >= 400 && requestError.status < 500
+      ? requestError.status
+      : 500;
+
+  if (status === 500) console.error(err);
+  const message =
+    status === 413
+      ? 'La solicitud excede el tamaño permitido.'
+      : status === 400
+        ? 'La solicitud no tiene un formato válido.'
+        : 'Ocurrió un error inesperado.';
+  res.status(status).json({ message });
 });
 
 const port = Number(process.env.PORT ?? 4000);

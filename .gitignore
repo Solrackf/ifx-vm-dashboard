@@ -9,3 +9,5 @@ apps/api/data/*.sqlite
 apps/api/data/*.sqlite-*
 npm-debug.log*
 *.tsbuildinfo
+test-results/
+playwright-report/

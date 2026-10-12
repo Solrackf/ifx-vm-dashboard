@@ -10,11 +10,18 @@
     "dev:api": "npm --workspace @vm-dashboard/api run dev",
     "dev:web": "npm --workspace @vm-dashboard/web run dev",
     "build": "npm --workspace @vm-dashboard/api run build && npm --workspace @vm-dashboard/web run build",
+    "test": "npm --workspace @vm-dashboard/api test && npm --workspace @vm-dashboard/web test",
+    "test:api": "npm --workspace @vm-dashboard/api test",
+    "test:web": "npm --workspace @vm-dashboard/web test",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:e2e",
     "start": "npm --workspace @vm-dashboard/api run start",
-    "format": "prettier --write \"apps/**/*.{ts,tsx,css,json,md}\" \"docs/**/*.md\" README.md CONTRIBUTING.md",
-    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,md}\" \"docs/**/*.md\" README.md CONTRIBUTING.md"
+    "format": "prettier --write \"apps/**/*.{ts,tsx,css,json,md}\" \"tests/**/*.{ts,tsx}\" \"docs/**/*.md\" playwright.config.ts README.md CONTRIBUTING.md",
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,md}\" \"tests/**/*.{ts,tsx}\" \"docs/**/*.md\" playwright.config.ts README.md CONTRIBUTING.md"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
     "concurrently": "^9.2.1",
     "prettier": "^3.9.10"
   },

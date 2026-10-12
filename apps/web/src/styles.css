@@ -93,7 +93,7 @@ a {
   --line-soft: #242925;
   --text: #e8eae5;
   --muted: #90968e;
-  --faint: #69716a;
+  --faint: #969c93;
   --accent: #d2b474;
   --accent-deep: #9f8249;
   --positive: #82b99a;
@@ -116,11 +116,11 @@ a {
   --line: #e7e4dc;
   --line-soft: #eeece6;
   --text: #252823;
-  --muted: #71776e;
-  --faint: #9ca097;
-  --accent: #98783d;
+  --muted: #62675f;
+  --faint: #656a61;
+  --accent: #755c31;
   --accent-deep: #755c31;
-  --positive: #438564;
+  --positive: #397653;
   --blue: #5477ab;
   --purple: #816eaa;
   --danger: #b45c50;
@@ -201,7 +201,7 @@ a {
 }
 .workspace-copy small {
   font-size: 10px;
-  color: #7c827b;
+  color: #959b92;
 }
 .workspace-switch > svg {
   color: #777d75;
@@ -210,7 +210,7 @@ a {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1.2px;
-  color: #666d65;
+  color: #959b92;
   padding: 0 10px;
   margin-bottom: 9px;
 }
@@ -311,10 +311,10 @@ a {
 .sidebar-version {
   display: block;
   font-size: 9px;
-  color: #697068;
+  color: #959b92;
 }
 .sidebar-version span {
-  color: #434a43;
+  color: #858c83;
   margin: 0 3px;
 }
 .mobile-close,
@@ -1899,7 +1899,7 @@ a {
 .login-visual-foot {
   display: flex;
   justify-content: space-between;
-  color: #697068;
+  color: #8e948b;
   font-size: 8px;
   letter-spacing: 1px;
 }
@@ -1915,7 +1915,7 @@ a {
   justify-content: space-between;
   font-size: 8px;
   letter-spacing: 1.15px;
-  color: #777c72;
+  color: #656a61;
 }
 .login-slash {
   color: #ad8c4c;
@@ -1925,7 +1925,7 @@ a {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #898e83;
+  color: #64695f;
 }
 .login-secure svg {
   color: #71917a;
@@ -1940,7 +1940,7 @@ a {
 }
 .login-eyebrow {
   font-size: 9px;
-  color: #9b7d47;
+  color: #806634;
   font-weight: 700;
   letter-spacing: 1.4px;
   margin-bottom: 9px;
@@ -1953,7 +1953,7 @@ a {
 }
 .login-intro {
   font-size: 11px;
-  color: #797e75;
+  color: #666b62;
   margin: 8px 0 26px;
 }
 .login-form {
@@ -1988,7 +1988,7 @@ a {
   align-items: center;
   gap: 7px;
   font-size: 9px;
-  color: #73786f;
+  color: #62675f;
 }
 .login-options input {
   accent-color: #a3864b;
@@ -2000,7 +2000,7 @@ a {
   border: 0;
   background: transparent;
   padding: 0;
-  color: #977743;
+  color: #796033;
   font-size: 9px;
 }
 .login-options button:hover {
@@ -2035,7 +2035,7 @@ a {
   border-top: 1px solid #e8e6df;
   margin-top: 23px;
   padding-top: 15px;
-  color: #848980;
+  color: #62675e;
   font-size: 8px;
 }
 .login-access-note svg {
@@ -2055,7 +2055,7 @@ a {
   align-items: center;
   justify-content: space-between;
   background: #f1efe9;
-  color: #85877f;
+  color: #666861;
   font-size: 7px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -2084,7 +2084,7 @@ a {
 }
 .login-credentials > button small {
   margin-left: auto;
-  color: #999b92;
+  color: #66685f;
   font-size: 8px;
 }
 .credential-dot {
@@ -2102,7 +2102,7 @@ a {
   display: flex;
   justify-content: space-between;
   font-size: 8px;
-  color: #9b9e95;
+  color: #686b63;
 }
 .login-footer i {
   font-style: normal;
@@ -2565,7 +2565,7 @@ a {
   align-items: center;
   gap: 5px;
   font-size: 9px;
-  color: #73786f;
+  color: #62675f;
 }
 .session-hint svg {
   color: #71917a;

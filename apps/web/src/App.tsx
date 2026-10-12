@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import {
   Activity,
   ArrowRight,
@@ -72,37 +80,25 @@ function AppRoutes() {
         element={user ? <Navigate to="/dashboard" replace /> : <LoginRoute onLogin={setUser} />}
       />
       <Route
-        path="/dashboard"
         element={
           <ProtectedRoute user={user}>
             <Dashboard />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/vms"
-        element={
-          <ProtectedRoute user={user}>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/vms/new"
-        element={
-          <AdminRoute user={user}>
-            <Dashboard />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path="/vms/:id/edit"
-        element={
-          <AdminRoute user={user}>
-            <Dashboard />
-          </AdminRoute>
-        }
-      />
+      >
+        <Route path="/dashboard" element={null} />
+        <Route path="/vms" element={null} />
+        <Route
+          element={
+            <AdminRoute user={user}>
+              <Outlet />
+            </AdminRoute>
+          }
+        >
+          <Route path="/vms/new" element={null} />
+          <Route path="/vms/:id/edit" element={null} />
+        </Route>
+      </Route>
       <Route path="*" element={<Navigate to={user ? '/dashboard' : '/login'} replace />} />
     </Routes>
   );
@@ -879,6 +875,7 @@ function Dashboard() {
           </div>
         ))}
       </div>
+      <Outlet />
     </div>
   );
 }
