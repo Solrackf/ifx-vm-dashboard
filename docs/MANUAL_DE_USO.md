@@ -4,10 +4,10 @@
 
 Con el proyecto iniciado, abre [http://localhost:5173](http://localhost:5173). Puedes usar una de estas cuentas:
 
-| Perfil | Correo | Contraseña |
-| --- | --- | --- |
-| Administrador | `admin@ifx.test` | `Admin123!` |
-| Cliente | `client@ifx.test` | `Client123!` |
+| Perfil        | Correo            | Contraseña   |
+| ------------- | ----------------- | ------------ |
+| Administrador | `admin@ifx.test`  | `Admin123!`  |
+| Cliente       | `client@ifx.test` | `Client123!` |
 
 La página de acceso también permite seleccionar cada perfil de demostración para completar el formulario automáticamente.
 

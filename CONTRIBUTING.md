@@ -4,7 +4,7 @@
 
 1. Crea una rama desde `main` para cada cambio.
 2. Usa prefijos claros para las ramas: `feat/`, `fix/`, `docs/`, `refactor/` o `chore/`.
-3. Mantén los cambios enfocados y ejecuta `npm run build` antes de integrarlos.
+3. Mantén los cambios enfocados, ejecuta `npm run format:check` y `npm run build` antes de integrarlos.
 4. Revisa `git diff` y `git status` antes de confirmar los cambios.
 
 ## Mensajes de commit

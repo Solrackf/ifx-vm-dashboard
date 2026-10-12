@@ -48,16 +48,16 @@ En desarrollo se usa `COOKIE_SECURE=false` porque el origen local es HTTP. En pr
 
 Todos los endpoints, salvo login y health, requieren la cookie de sesión.
 
-| Método | Ruta | Acceso | Descripción |
-| --- | --- | --- | --- |
-| `GET` | `/api/health` | Público | Estado de API. |
-| `POST` | `/api/login` | Público | Inicia sesión y establece cookie; responde `{ user }`. |
-| `POST` | `/api/logout` | Público | Limpia la cookie. |
-| `GET` | `/api/me` | Autenticado | Devuelve el usuario de la sesión. |
-| `GET` | `/api/vms` | Admin y Cliente | Lista todas las VMs. |
-| `POST` | `/api/vms` | Solo Admin | Crea VM. |
-| `PUT` | `/api/vms/:id` | Solo Admin | Actualiza VM. |
-| `DELETE` | `/api/vms/:id` | Solo Admin | Elimina VM. |
+| Método   | Ruta           | Acceso          | Descripción                                            |
+| -------- | -------------- | --------------- | ------------------------------------------------------ |
+| `GET`    | `/api/health`  | Público         | Estado de API.                                         |
+| `POST`   | `/api/login`   | Público         | Inicia sesión y establece cookie; responde `{ user }`. |
+| `POST`   | `/api/logout`  | Público         | Limpia la cookie.                                      |
+| `GET`    | `/api/me`      | Autenticado     | Devuelve el usuario de la sesión.                      |
+| `GET`    | `/api/vms`     | Admin y Cliente | Lista todas las VMs.                                   |
+| `POST`   | `/api/vms`     | Solo Admin      | Crea VM.                                               |
+| `PUT`    | `/api/vms/:id` | Solo Admin      | Actualiza VM.                                          |
+| `DELETE` | `/api/vms/:id` | Solo Admin      | Elimina VM.                                            |
 
 Payload para crear o actualizar:
 

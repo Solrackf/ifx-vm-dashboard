@@ -8,22 +8,22 @@ Los prompts de esta bitácora se presentan en forma consolidada: resumen las ins
 
 ## Herramientas y modelos
 
-| Participación | Herramienta / modelo | Uso |
-| --- | --- | --- |
-| Desarrollo | ChatGPT con Codex — GPT-6 Luna, razonamiento `high` | Implementar frontend, API, persistencia, autenticación, tiempo real y documentación siguiendo mis decisiones. |
-| Revisión independiente | Devin Desktop / Windsurf — SWE-2 High | Contrastar el entregable con el enunciado, reportar brechas y entregar feedback para dirigir correcciones. |
+| Participación          | Herramienta / modelo                                | Uso                                                                                                           |
+| ---------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Desarrollo             | ChatGPT con Codex — GPT-6 Luna, razonamiento `high` | Implementar frontend, API, persistencia, autenticación, tiempo real y documentación siguiendo mis decisiones. |
+| Revisión independiente | Devin Desktop / Windsurf — SWE-2 High               | Contrastar el entregable con el enunciado, reportar brechas y entregar feedback para dirigir correcciones.    |
 
 La documentación oficial de OpenAI enumera `high` entre los niveles de razonamiento compatibles con GPT-6 Luna: [GPT-6 Luna — OpenAI API](https://developers.openai.com/api/docs/models/gpt-6-luna).
 
 ## Secuencia de trabajo e intervención humana
 
-| Etapa | Instrucción / intervención | Por qué lo hice | Solución ejecutada |
-| --- | --- | --- | --- |
-| 1. Delimitación | Compartí la prueba, pedí convertirla a Markdown y decidí iniciar el desarrollo a partir de sus requisitos. | Tener una fuente legible para planear y verificar el alcance antes de programar. | Enunciado transcrito a Markdown y criterios funcionales y de entrega identificados. |
-| 2. Decisiones base | Confirmé React, TypeScript y Vite; Express y TypeScript; SQLite; WebSockets desde el inicio; experiencia local primero; manual, documentación técnica y cuentas de prueba. | Fijar el stack, el modo de operación y los entregables antes de ejecutar el desarrollo. | Monorepo npm con aplicaciones web y API, persistencia SQLite, Socket.IO y datos seed de demostración. |
-| 3. Dirección visual | Especifiqué minimalismo, elegancia sobria, ausencia de glassmorphism, drawers, jerarquía clara y transiciones profesionales. | Evitar una interfaz genérica y mantener una dirección consistente con el producto esperado. | Consola responsive con paleta sobria, tema claro/oscuro, formularios laterales y microtransiciones. |
-| 4. Entregables | Pedí documentación de uso y técnica, credenciales de prueba y una bitácora que identificara herramienta, modelo y prompts. | Permitir instalar, recorrer y evaluar la aplicación, y declarar el uso de IA con transparencia. | README, manual, documentación técnica y esta bitácora. |
-| 5. Control de calidad | Compartí una evaluación externa que señaló brechas concretas de rutas, estado global, validación en tiempo real, feedback visual de Socket.IO y Git. | Corregir aspectos observables contra el enunciado y elevar la organización del frontend. | React Router, Zustand, separación de componentes, validación al salir y corregir campos, resaltado de cambios y convenciones Git. |
+| Etapa                 | Instrucción / intervención                                                                                                                                                 | Por qué lo hice                                                                                 | Solución ejecutada                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Delimitación       | Compartí la prueba, pedí convertirla a Markdown y decidí iniciar el desarrollo a partir de sus requisitos.                                                                 | Tener una fuente legible para planear y verificar el alcance antes de programar.                | Enunciado transcrito a Markdown y criterios funcionales y de entrega identificados.                                               |
+| 2. Decisiones base    | Confirmé React, TypeScript y Vite; Express y TypeScript; SQLite; WebSockets desde el inicio; experiencia local primero; manual, documentación técnica y cuentas de prueba. | Fijar el stack, el modo de operación y los entregables antes de ejecutar el desarrollo.         | Monorepo npm con aplicaciones web y API, persistencia SQLite, Socket.IO y datos seed de demostración.                             |
+| 3. Dirección visual   | Especifiqué minimalismo, elegancia sobria, ausencia de glassmorphism, drawers, jerarquía clara y transiciones profesionales.                                               | Evitar una interfaz genérica y mantener una dirección consistente con el producto esperado.     | Consola responsive con paleta sobria, tema claro/oscuro, formularios laterales y microtransiciones.                               |
+| 4. Entregables        | Pedí documentación de uso y técnica, credenciales de prueba y una bitácora que identificara herramienta, modelo y prompts.                                                 | Permitir instalar, recorrer y evaluar la aplicación, y declarar el uso de IA con transparencia. | README, manual, documentación técnica y esta bitácora.                                                                            |
+| 5. Control de calidad | Compartí una evaluación externa que señaló brechas concretas de rutas, estado global, validación en tiempo real, feedback visual de Socket.IO y Git.                       | Corregir aspectos observables contra el enunciado y elevar la organización del frontend.        | React Router, Zustand, separación de componentes, validación al salir y corregir campos, resaltado de cambios y convenciones Git. |
 
 La IA no definió por sí sola el objetivo del sistema ni sustituyó mi revisión. Su función fue materializar instrucciones y corregir el código según criterios que indiqué y revisé.
 

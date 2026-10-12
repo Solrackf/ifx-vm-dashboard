@@ -26,17 +26,20 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   setVms: (vms) => set((state) => ({ vms: typeof vms === 'function' ? vms(state.vms) : vms })),
   setLoading: (loading) => set({ loading }),
   setSocketConnected: (socketConnected) => set({ socketConnected }),
-  upsertVm: (vm, highlight = false) => set((state) => ({
-    vms: state.vms.some((item) => item.id === vm.id)
-      ? state.vms.map((item) => item.id === vm.id ? vm : item)
-      : [vm, ...state.vms],
-    highlightedVmIds: highlight
-      ? [...state.highlightedVmIds.filter((id) => id !== vm.id), vm.id]
-      : state.highlightedVmIds,
-  })),
-  removeVm: (id) => set((state) => ({
-    vms: state.vms.filter((item) => item.id !== id),
-    highlightedVmIds: state.highlightedVmIds.filter((item) => item !== id),
-  })),
-  clearSession: () => set({ user: null, vms: [], loading: false, socketConnected: false, highlightedVmIds: [] }),
+  upsertVm: (vm, highlight = false) =>
+    set((state) => ({
+      vms: state.vms.some((item) => item.id === vm.id)
+        ? state.vms.map((item) => (item.id === vm.id ? vm : item))
+        : [vm, ...state.vms],
+      highlightedVmIds: highlight
+        ? [...state.highlightedVmIds.filter((id) => id !== vm.id), vm.id]
+        : state.highlightedVmIds,
+    })),
+  removeVm: (id) =>
+    set((state) => ({
+      vms: state.vms.filter((item) => item.id !== id),
+      highlightedVmIds: state.highlightedVmIds.filter((item) => item !== id),
+    })),
+  clearSession: () =>
+    set({ user: null, vms: [], loading: false, socketConnected: false, highlightedVmIds: [] }),
 }));
